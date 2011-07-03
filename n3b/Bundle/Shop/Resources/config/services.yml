@@ -1,0 +1,26 @@
+services:
+  request:
+    synthetic:              true
+  basket:
+    class:                  n3b\Bundle\Shop\Service\Basket
+    arguments:
+      services:
+        em:                 '@doctrine.orm.entity_manager'
+        templating:         '@templating'
+        router:             '@router'
+    tags:
+      - { name: kernel.listener, event: core.request, method: onCoreRequest }
+      - { name: kernel.listener, event: core.response, method: onCoreResponse }
+  container:
+    class:                  n3b\Bundle\Shop\Service\Container
+    arguments:
+      params: []
+  catalog:
+    class:                  n3b\Bundle\Shop\Service\Catalog
+    arguments:
+      services:
+        em:                 '@doctrine.orm.entity_manager'
+        templating:         '@templating'
+        security:           '@security.context'
+        router:             '@router'
+        http_kernel:        '@http_kernel'

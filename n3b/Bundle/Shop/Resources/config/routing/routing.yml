@@ -1,0 +1,15 @@
+home:
+  pattern:   /
+  defaults:  { _controller: catalog:index }
+
+shop_catalog:
+  resource:  "catalog.yml"
+
+basket:
+  resource:  "basket.yml"
+  prefix:    /basket
+
+order:
+  resource:  "checkout.yml"
+  prefix:    /checkout
+  

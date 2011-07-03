@@ -1,0 +1,17 @@
+shop_catalog_blank:
+  pattern:   /
+  defaults:  { _controller: n3bShopBundle:Catalog:index }
+
+shop_catalog_tag:
+  pattern:            /{slugStr}
+  defaults:           { _controller: catalog:showTag }
+
+#shop_catalog_products:
+#  pattern:   /{tags}
+# options:   { compiler_class: n3b\Bundle\Shop\Routing\utf8RouteCompiler }
+#  requirements:
+#    tags:    (?i)[а-яa-z0-9:()|+,_-]+
+
+shop_catalog_search:
+  pattern:   /Поиск/
+  defaults:  { _controller: n3bShopBundle:Catalog:search }
