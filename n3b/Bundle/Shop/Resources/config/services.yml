@@ -24,16 +24,6 @@ services:
         security:                   '@security.context'
         router:                     '@router'
         http_kernel:                '@http_kernel'
-  crud:
-    class:                          n3b\Bundle\Shop\Service\CRUD
-    arguments:
-      services:
-        request:                    '@request'
-        ff:                         '@form.factory'
-        em:                         '@doctrine.orm.entity_manager'
-        templating:                 '@templating'
-        router:                     '@router'
-        security:                   '@security.context'
   customer:
     class:                          n3b\Bundle\Shop\Service\Customer
     arguments:

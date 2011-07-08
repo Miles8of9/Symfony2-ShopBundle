@@ -30,7 +30,7 @@ class Catalog
 
         $productIds = $this->repo['product']->getIdsByTags($slugs);
         $brands = $this->repo['tag']->getByProductIds($productIds, array(2));
-        $products = $this->repo['product']->getByIds($productIds);
+        $products = $this->repo['product']->getByIds($productIds, 1);
 
         return $this->services['templating']->renderResponse('n3bShopBundle:Catalog:show.html.php', array(
             'categories' => $categories,

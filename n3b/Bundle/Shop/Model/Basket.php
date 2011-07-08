@@ -3,13 +3,14 @@
 namespace n3b\Bundle\Shop\Model;
 
 use n3b\Bundle\Shop\Entity\BasketItem;
-
 use Doctrine\Common\Collections\ArrayCollection;
 
 abstract class Basket
 {
+
     protected function __construct()
     {
+
     }
 
     public function isInBasket(Product $product)
@@ -18,11 +19,6 @@ abstract class Basket
             if($product == $item->getProduct())
                 return $item;
         return null;
-    }
-
-    public function clearBasket()
-    {
-        $this->items = new ArrayCollection();
     }
 
     public function addProduct(Product $product)

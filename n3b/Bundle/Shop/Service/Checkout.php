@@ -27,10 +27,12 @@ class Checkout
                 foreach($this->services['basket']->getBasket()->getItems() as $item)
                     $checkout->addBasketItem($item);
 
+                $this->services['basket']->clearBasket();
+
                 $this->services['em']->persist($checkout);
                 $this->services['em']->flush();
 
-                //return new RedirectResponse($this->services['router']->generate('n3b_shop_checkout_start'));
+                return new RedirectResponse($this->services['router']->generate('n3b_shop_index'));
             }
         }
         

@@ -13,19 +13,23 @@ class BasketRepository extends EntityRepository
     {
     }
 
-    public function getCompleteBasket($bsid)
+    public function getCompleteBasket($bsid, $priceId)
     {
         $dql = "
             SELECT b, i, p, pp, ppc, ppp FROM n3bShopBundle:Basket b
             JOIN b.items i
             JOIN i.product p
             JOIN p.prices pp
+            JOIN pp.price ppp WITH ppp.id = :price_id
             JOIN pp.currency ppc
-            JOIN pp.price ppp
-            WHERE b.bsid = ?1";
+            WHERE b.bsid = :basket_sid";
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter(1, $bsid);
+        $query->setParameters(array(
+            'basket_sid' => $bsid,
+            'price_id' => $priceId,
+            ));
+
         $res = $query->getOneOrNullResult();
 
         return $res;
