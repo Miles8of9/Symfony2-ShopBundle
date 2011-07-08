@@ -22,10 +22,13 @@ class Basket
     {
         $cookieBsid = $event->getRequest()->cookies->get('bsid');
 
-        if(\is_null($cookieBsid) || !($this->basket = $this->services['em']->getRepository('n3bShopBundle:Basket')->findOneByBsid($cookieBsid)))
+        if(\is_null($cookieBsid) || !($this->basket = $this->services['em']->getRepository('n3bShopBundle:Basket')->getCompleteBasket($cookieBsid)))
             $this->basket = new BasketModel();
 
         // для ajax запросов
+        if(!$event->getRequest()->isXmlHttpRequest())
+            return;
+
         if($id = $event->getRequest()->get('add_to_basket'))
             $this->addProduct($productId, false);
         elseif($id = $event->getRequest()->get('del_from_basket'))
@@ -56,9 +59,19 @@ class Basket
 
     public function addProduct($productId, $show = true)
     {
+        //TODO перенести в реп, INSERT ... ON DUPLICATE KEY UPDATE
         $product = $this->services['em']->getReference('n3bShopBundle:Product', $productId);
         try {
-            $this->getBasket()->addProduct($product, $this->services['em']);
+            if(!count($this->getBasket()->getItems()))
+                $this->services['em']->persist($this->getBasket());
+
+            $item = $this->getBasket()->addProduct($product);
+
+            //TODO нужно что-то вроде isNew(), в мануалах пока не нашел
+            if(!$item->getId())
+                $this->services['em']->persist($item);
+
+            $this->services['em']->flush();
         } catch(\Exception $e) {
             throw new NotFoundHttpException('Вы хотите купить несуществующий товар?');
         }
@@ -78,7 +91,7 @@ class Basket
         }
         $this->services['em']->flush();
         if($show)
-            return $this->show();
+            return new RedirectResponse($this->services['router']->generate('n3b_shop_basket'));
     }
 
     public function increaseBasketItemQuantity($itemId, $show = true)
@@ -90,12 +103,12 @@ class Basket
         } catch(\Exception $e) {
             throw new NotFoundHttpException('В вашей корзине нет этого товара.');
         }
-        
+
         $item->setQuantity($item->getQuantity() + 1);
         $this->services['em']->flush();
-        
+
         if($show)
-            return $this->show();
+            return new RedirectResponse($this->services['router']->generate('n3b_shop_basket'));
     }
 
     public function decreaseBasketItemQuantity($itemId, $show = true)
@@ -108,23 +121,28 @@ class Basket
         } catch(\Exception $e) {
             throw new NotFoundHttpException('В вашей корзине нет этого товара.');
         }
-        
+
         if($item->getQuantity() > 1) {
             $item->setQuantity($item->getQuantity() - 1);
             $this->services['em']->flush();
         }
 
         if($show)
-            return $this->show();
+            return new RedirectResponse($this->services['router']->generate('n3b_shop_basket'));
     }
 
     public function show()
     {
         if(!count($this->getBasket()->getItems()))
             return new RedirectResponse($this->services['router']->generate('home'));
-        
+
         return $this->services['templating']->renderResponse('n3bShopBundle:Basket:show.html.php', array(
-            'items' => $this->getBasket()->getItems()
+            'basket' => $this->getBasket(),
         ));
+    }
+
+    public function clearBasket()
+    {
+        $this->getBasket()->clearBasket();
     }
 }

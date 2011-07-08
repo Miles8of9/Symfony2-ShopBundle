@@ -6,7 +6,7 @@
 <?php $view['slots']->start('body') ?>
 
 <div id="wrapper">
-	<a id="logo" class="blockCentralizer" href="<?php echo $view['router']->generate('shop_index') ?>">
+	<a id="logo" class="blockCentralizer" href="<?php echo $view['router']->generate('n3b_shop_index') ?>">
 		<img src="/css/images/logo.gif" alt="logo" title="logo" />
 	</a>
 

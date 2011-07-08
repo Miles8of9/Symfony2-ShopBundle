@@ -1,0 +1,3 @@
+n3b_shop_customer_index:
+    pattern:  /
+    defaults: { _controller: user:index }

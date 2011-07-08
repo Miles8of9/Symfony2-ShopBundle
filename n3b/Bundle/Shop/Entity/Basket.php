@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace n3b\Bundle\Shop\Entity;
 
@@ -13,31 +13,28 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Basket extends BaseBasket
 {
-	/**
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-	/**
-	 * @ORM\Column(type="string", length="40", unique="true")
+    /**
+     * @ORM\Column(type="string", length="40", unique="true")
      */
     protected $bsid;
-
-	/**
-	 * @ORM\OneToMany(targetEntity="BasketItem", mappedBy="basket", orphanRemoval=true, cascade={"persist", "remove"})
+    /**
+     * @ORM\OneToMany(targetEntity="BasketItem", mappedBy="basket", orphanRemoval=true, cascade={"persist", "remove"})
      */
     protected $items;
-    
     /**
      * @ORM\Column(type="datetime")
      */
     protected $updated;
-    
+
     public function __construct()
     {
-		$this->updated = new \DateTime("now");
+        $this->updated = new \DateTime("now");
         $this->items = new ArrayCollection();
         $this->bsid = sha1($_SERVER['REMOTE_ADDR'] . microtime(true));
     }
@@ -98,6 +95,27 @@ class Basket extends BaseBasket
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+
+    /**
+     * Add products
+     *
+     * @param n3b\Bundle\Shop\Entity\ProductInBasket $products
+     */
+    public function addProducts(\n3b\Bundle\Shop\Entity\ProductInBasket $products)
+    {
+        $this->products[] = $products;
+    }
+
+    /**
+     * Get products
+     *
+     * @return Doctrine\Common\Collections\Collection $products
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 
     /**

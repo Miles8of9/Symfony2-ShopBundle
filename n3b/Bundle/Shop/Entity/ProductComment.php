@@ -8,7 +8,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  */
-class ProductComments
+class ProductComment
 {
 	/**
 	 * @ORM\Id
@@ -23,24 +23,23 @@ class ProductComments
 	/**
 	 * @ORM\Column(type="text", length="4000")
 	 */
-	protected $article;
+	protected $text;
 	/**
 	 * @ORM\Column(type="datetime")
 	 */
 	protected $created;
 	/**
-	 * @ORM\OneToMany(targetEntity="ProductComments", mappedBy="parent", orphanRemoval=true, cascade={"persist", "remove"})
+	 * @ORM\OneToMany(targetEntity="ProductComment", mappedBy="parent", orphanRemoval=true, cascade={"persist", "remove"})
 	 */
 	protected $children;
 	/**
-	 * @ORM\ManyToOne(targetEntity="ProductComments", inversedBy="children")
-	 * @ORM\JoinColumn(name="parent_id", referencedColumnName="id")
+	 * @ORM\ManyToOne(targetEntity="ProductComment", inversedBy="children")
 	 */
 	protected $parent;
 
 	public function __construct()
 	{
-		$this->created = new \Symfony\Component\Validator\Constraints\DateTime('now');
+		$this->created = new \DateTime();
 		$this->userName = 'Аноним';
 	}
 
@@ -152,5 +151,25 @@ class ProductComments
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * Set text
+     *
+     * @param text $text
+     */
+    public function setText($text)
+    {
+        $this->text = $text;
+    }
+
+    /**
+     * Get text
+     *
+     * @return text $text
+     */
+    public function getText()
+    {
+        return $this->text;
     }
 }

@@ -1,17 +1,11 @@
-shop_catalog_blank:
-  pattern:   /
-  defaults:  { _controller: n3bShopBundle:Catalog:index }
+n3b_shop_catalog_search:
+  pattern:            /search
+  defaults:           { _controller: catalog:search }
 
-shop_catalog_tag:
+n3b_shop_catalog_products:
   pattern:            /{slugStr}
-  defaults:           { _controller: catalog:showTag }
+  defaults:           { _controller: catalog:products }
 
-#shop_catalog_products:
-#  pattern:   /{tags}
-# options:   { compiler_class: n3b\Bundle\Shop\Routing\utf8RouteCompiler }
-#  requirements:
-#    tags:    (?i)[а-яa-z0-9:()|+,_-]+
-
-shop_catalog_search:
-  pattern:   /Поиск/
-  defaults:  { _controller: n3bShopBundle:Catalog:search }
+n3b_shop_catalog_product:
+  pattern:            /product/{slug}
+  defaults:           { _controller: catalog:product }

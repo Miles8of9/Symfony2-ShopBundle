@@ -1,26 +1,26 @@
-shop_basket:
+n3b_shop_basket:
     pattern:  /
     defaults: { _controller: basket:show }
 
-shop_basket_add:
+n3b_shop_basket_add:
     pattern:  /add/{productId}
     defaults: { _controller: basket:addProduct }
     requirements:
         productId:  \d+
 
-shop_basket_decrease:
+n3b_shop_basket_decrease:
     pattern:  /decrease/{itemId}
     defaults: { _controller: basket:decreaseBasketItemQuantity }
     requirements:
         productId:  \d+
 
-shop_basket_increase:
+n3b_shop_basket_increase:
     pattern:  /increase/{itemId}
     defaults: { _controller: basket:increaseBasketItemQuantity }
     requirements:
         productId:  \d+
 
-shop_basket_remove:
+n3b_shop_basket_remove:
     pattern:  /remove/{itemId}
     defaults: { _controller: basket:removeItem }
     requirements:

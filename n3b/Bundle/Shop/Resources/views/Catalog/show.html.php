@@ -4,14 +4,14 @@
 <ul>
 <?php foreach($categories as $k => $tag): ?>
     <li>
-    <a href="<?php echo $view['router']->generate('shop_catalog_tag', array('slugStr' => $tag->getSlug()))?>">
+    <a href="<?php echo $view['router']->generate('n3b_shop_catalog_products', array('slugStr' => $tag->getSlug()))?>">
         <?php echo $tag ?>
     </a>
     <?php if($tag->getChildren()):?>
         <ul>
 			<?php foreach($tag->getChildren() as $child):?>
 			<li>
-                <a href="<?php echo $view['router']->generate('shop_catalog_tag', array('slugStr' => $child->getSlug()))?>">
+                <a href="<?php echo $view['router']->generate('n3b_shop_catalog_products', array('slugStr' => $child->getSlug()))?>">
                     <?php echo $child ?>
                 </a>
             </li>
@@ -25,7 +25,7 @@
 <ul>
 <?php foreach ($brands as $k => $tag): ?>
     <li>
-        <a href="<?php echo str_replace('%2C', ',', $view['router']->generate('shop_catalog_tag', array('slugStr' => $tag->generateSlugStr($slugs))))?>">
+        <a href="<?php echo str_replace('%2C', ',', $view['router']->generate('n3b_shop_catalog_products', array('slugStr' => $tag->generateSlugStr($slugs))))?>">
             <?php echo $tag ?>
         </a>
 	</li>
@@ -35,7 +35,7 @@
 <ul>
     <?php foreach($products as $product): ?>
     <li>
-        <?php echo $product ?>
+        <a href="<?php echo $view['router']->generate('n3b_shop_catalog_product', array('slug' => $product->getSlug()))?>"><?php echo $product ?></a>
         <?php foreach($product->getPrices() as $price): ?>
             <?php if($price->getPrice()->getId() == 2 && 0): ?>
                 <?php echo ($price->getValue() * $price->getCurrency()->getValue()) ?>
@@ -43,27 +43,8 @@
                 <?php echo ($price->getValue() * $price->getCurrency()->getValue()) ?>
             <?php endif ?>
         <?php endforeach ?>
-        <a href="<?php echo $view['router']->generate('shop_basket_add', array('productId' => $product->getId()))?>">купить</a>
+        <a href="<?php echo $view['router']->generate('n3b_shop_basket_add', array('productId' => $product->getId()))?>">купить</a>
     </li>
     <?php endforeach ?>
 </ul>
-<?php /*
-<ul>
-    <?php foreach($selectedCatTag->getAllProducts() as $product): ?>
-    <li>
-        <?php echo $product ?>
-        <?php foreach($product->getPrices() as $price): ?>
-            <?php if($price->getPrice()->getId() == 2 && 0): ?>
-                <?php echo ($price->getValue() * $price->getCurrency()->getValue()) ?>
-            <?php else: ?>
-                <?php echo ($price->getValue() * $price->getCurrency()->getValue()) ?>
-            <?php endif ?>
-        <?php endforeach ?>
-        <a href="<?php echo $view['router']->generate('shop_basket_add', array('productId' => $product->getId()))?>">купить</a>
-    </li>
-    <?php endforeach ?>
-</ul>
- * 
- */
-?>
 <?php $view['slots']->stop() ?>

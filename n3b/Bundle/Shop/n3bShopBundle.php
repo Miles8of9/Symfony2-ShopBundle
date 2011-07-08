@@ -6,4 +6,8 @@ use Symfony\Component\HttpKernel\Bundle\Bundle;
 
 class n3bShopBundle extends Bundle
 {
+    /*
+     * Form::setAttribute($name, $val);
+     */
 }
+

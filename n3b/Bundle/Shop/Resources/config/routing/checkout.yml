@@ -1,3 +1,3 @@
-checkout_proceed:
-    pattern:  /checkout
-    defaults: { _controller: checkout:proceed }
+n3b_shop_checkout_start:
+    pattern:  /
+    defaults: { _controller: checkout:start }

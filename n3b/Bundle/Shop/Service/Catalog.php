@@ -23,7 +23,7 @@ class Catalog
         return $this->services['templating']->renderResponse('n3bShopBundle:Catalog:index.html.php', array('tags' => $tags));
     }
 
-    public function showTag($slugStr)
+    public function products($slugStr)
     {
         $slugs = \explode(',', $slugStr);
         $categories = $this->repo['tag']->getTagsByType(array(1));
@@ -38,5 +38,19 @@ class Catalog
             'products' => $products,
             'slugs' => $slugs,
             ));
+    }
+
+    public function product($slug)
+    {
+        $product = $this->repo['product']->getProductCard($slug);
+        
+        return $this->services['templating']->renderResponse('n3bShopBundle:Catalog:product_card.html.php', array(
+            'product' => $product,
+            ));
+    }
+
+    public function search()
+    {
+        
     }
 }

@@ -1,26 +1,55 @@
 services:
   request:
-    synthetic:              true
+    synthetic:                      true
   basket:
-    class:                  n3b\Bundle\Shop\Service\Basket
+    class:                          n3b\Bundle\Shop\Service\Basket
     arguments:
       services:
-        em:                 '@doctrine.orm.entity_manager'
-        templating:         '@templating'
-        router:             '@router'
+        em:                         '@doctrine.orm.entity_manager'
+        templating:                 '@templating'
+        router:                     '@router'
     tags:
       - { name: kernel.listener, event: core.request, method: onCoreRequest }
       - { name: kernel.listener, event: core.response, method: onCoreResponse }
   container:
-    class:                  n3b\Bundle\Shop\Service\Container
+    class:                          n3b\Bundle\Shop\Service\Container
     arguments:
       params: []
   catalog:
-    class:                  n3b\Bundle\Shop\Service\Catalog
+    class:                          n3b\Bundle\Shop\Service\Catalog
     arguments:
       services:
-        em:                 '@doctrine.orm.entity_manager'
-        templating:         '@templating'
-        security:           '@security.context'
-        router:             '@router'
-        http_kernel:        '@http_kernel'
+        em:                         '@doctrine.orm.entity_manager'
+        templating:                 '@templating'
+        security:                   '@security.context'
+        router:                     '@router'
+        http_kernel:                '@http_kernel'
+  crud:
+    class:                          n3b\Bundle\Shop\Service\CRUD
+    arguments:
+      services:
+        request:                    '@request'
+        ff:                         '@form.factory'
+        em:                         '@doctrine.orm.entity_manager'
+        templating:                 '@templating'
+        router:                     '@router'
+        security:                   '@security.context'
+  customer:
+    class:                          n3b\Bundle\Shop\Service\Customer
+    arguments:
+      services:
+        em:                         '@doctrine.orm.entity_manager'
+        templating:                 '@templating'
+        router:                     '@router'
+        http_kernel:                '@http_kernel'
+  checkout:
+    class:                          n3b\Bundle\Shop\Service\Checkout
+    arguments:
+      services:
+        em:                         '@doctrine.orm.entity_manager'
+        templating:                 '@templating'
+        router:                     '@router'
+        http_kernel:                '@http_kernel'
+        ff:                         '@form.factory'
+        request:                    '@request'
+        basket:                     '@basket'
