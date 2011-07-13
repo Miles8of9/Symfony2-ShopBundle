@@ -2,8 +2,6 @@
 
 namespace n3b\Bundle\Shop\Service;
 
-use n3b\Bundle\Shop\Model\ProductManager;
-use n3b\Bundle\Shop\Model\TagManager;
 use n3b\Bundle\Shop\Event;
 
 class Catalog

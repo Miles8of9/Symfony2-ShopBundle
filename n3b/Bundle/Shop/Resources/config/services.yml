@@ -8,9 +8,7 @@ services:
         em:                         '@doctrine.orm.entity_manager'
         templating:                 '@templating'
         router:                     '@router'
-    tags:
-      - { name: kernel.listener, event: core.request, method: onCoreRequest }
-      - { name: kernel.listener, event: core.response, method: onCoreResponse }
+        sc:                         '@security.context'
   container:
     class:                          n3b\Bundle\Shop\Service\Container
     arguments:
@@ -24,6 +22,7 @@ services:
         security:                   '@security.context'
         router:                     '@router'
         http_kernel:                '@http_kernel'
+        sc:                         '@security.context'
   customer:
     class:                          n3b\Bundle\Shop\Service\Customer
     arguments:
@@ -32,6 +31,8 @@ services:
         templating:                 '@templating'
         router:                     '@router'
         http_kernel:                '@http_kernel'
+        request:                    '@request'
+        sc:                         '@security.context'
   checkout:
     class:                          n3b\Bundle\Shop\Service\Checkout
     arguments:
@@ -43,3 +44,12 @@ services:
         ff:                         '@form.factory'
         request:                    '@request'
         basket:                     '@basket'
+        sc:                         '@security.context'
+  event_listener:
+    class:                          n3b\Bundle\Shop\Event\EventListener
+    arguments:
+      services:
+        basket:                     '@basket'
+    tags:
+      - { name: kernel.listener, event: core.request, method: onCoreRequest }
+      - { name: kernel.listener, event: core.response, method: onCoreResponse }

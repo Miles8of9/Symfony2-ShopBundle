@@ -1,3 +1,13 @@
 n3b_shop_customer_index:
     pattern:  /
-    defaults: { _controller: user:index }
+    defaults: { _controller: customer:index }
+
+n3b_shop_login:
+    pattern:   /login
+    defaults:  { _controller: customer:login }
+
+n3b_shop_login_check:
+    pattern:   /login_check
+
+n3b_shop_logout:
+    pattern:   /logout

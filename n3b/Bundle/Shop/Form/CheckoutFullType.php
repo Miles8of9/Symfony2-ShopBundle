@@ -15,7 +15,13 @@ class CheckoutFullType extends AbstractType
             ->add('user_save', 'checkbox', array('label' => 'сохранить пользователя?', 'required' => false))
             ->add('checkout', new CheckoutType());
 
-        $builder->addEventSubscriber(new EventSubscriber\PreBindDataSubscriber($builder->getFormFactory()));
+        $builder->addEventListener(
+            FormEvents::PRE_BIND,
+            array(
+                new Event\PreBindDataListener($builder->getFormFactory()),
+                'onPreBindData'
+            ));
+
         $builder->addValidator(new Validator\CheckoutDeliveryValidator());
     }
 }

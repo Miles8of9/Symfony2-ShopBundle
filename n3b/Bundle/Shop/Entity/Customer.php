@@ -6,11 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use n3b\Bundle\Shop\Model\Customer as BaseCustomer;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity
  */
-class Customer extends BaseCustomer
+class Customer extends BaseCustomer implements UserInterface
 {
     /**
      * @ORM\Id
@@ -23,7 +24,7 @@ class Customer extends BaseCustomer
      * @Assert\NotBlank(groups={"registration"})
      * @Assert\Blank(groups={"pass_through"})
      */
-    protected $login;
+    protected $username;
     /**
      * @ORM\Column(nullable="true")
      * @Assert\NotBlank(groups={"registration"})
@@ -33,7 +34,7 @@ class Customer extends BaseCustomer
     /**
      * @ORM\Column
      */
-    protected $username;
+    protected $name;
     /**
      * @ORM\Column
      */
@@ -62,9 +63,9 @@ class Customer extends BaseCustomer
      *
      * @param string $login
      */
-    public function setLogin($login)
+    public function setUsername($login)
     {
-        $this->login = $login;
+        $this->username = $login;
     }
 
     /**
@@ -72,9 +73,9 @@ class Customer extends BaseCustomer
      *
      * @return string $login
      */
-    public function getLogin()
+    public function getUsername()
     {
-        return $this->login;
+        return $this->username;
     }
 
     /**
@@ -102,19 +103,19 @@ class Customer extends BaseCustomer
      *
      * @param string $username
      */
-    public function setUsername($username)
+    public function setName($username)
     {
-        $this->username = $username;
+        $this->name = $username;
     }
 
     /**
      * Get username
      *
-     * @return string $username
+     * @return string $userName
      */
-    public function getUsername()
+    public function getName()
     {
-        return $this->username;
+        return $this->name;
     }
 
     /**
@@ -155,5 +156,25 @@ class Customer extends BaseCustomer
     public function getOrders()
     {
         return $this->orders;
+    }
+
+    public function getSalt()
+    {
+        
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function eraseCredentials()
+    {
+        $this->password = null;
+    }
+
+    public function equals(UserInterface $user)
+    {
+
     }
 }

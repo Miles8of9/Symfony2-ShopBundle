@@ -5,9 +5,6 @@ n3b_shop_index:
 n3b_shop_test:
   pattern:   /test
 
-n3b_shop_catalog:
-  resource:  "catalog.yml"
-
 n3b_shop_basket:
   resource:  "basket.yml"
   prefix:    /basket
@@ -20,3 +17,5 @@ n3b_shop_customer:
   resource:  "customer.yml"
   prefix:    /customer
 
+n3b_shop_catalog:
+  resource:  "catalog.yml"

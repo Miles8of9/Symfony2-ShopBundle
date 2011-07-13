@@ -7,7 +7,7 @@ class Container {
 
     public function __construct($params)
     {
-        $this->processParams($params, '');
+        $this->processParams($params);
     }
 
     public function set($key, $value)
@@ -35,13 +35,12 @@ class Container {
         return null;
     }
 
-    protected function processParams($params, $nodeName)
+    protected function processParams($params, $nodeName = '')
     {
-        $nodeName = \strlen($nodeName) ? $nodeName.'.' : '';
         foreach ($params as $k => $v) {
             $path = $nodeName . $k;
             if (is_array($v))
-                $this->processParams($v, $path);
+                $this->processParams($v, $path . '.');
             else
                 $this->set($path, $v);
         }

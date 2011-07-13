@@ -2,8 +2,6 @@
 
 namespace n3b\Bundle\Shop\Service;
 
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Cookie;
 use n3b\Bundle\Shop\Entity\Basket as BasketModel;
@@ -18,38 +16,33 @@ class Basket
         $this->services = $services;
     }
 
-    public function onCoreRequest(GetResponseEvent $event)
+    public function init($request)
     {
-        $cookieBsid = $event->getRequest()->cookies->get('bsid');
+        $cookieBsid = $request->cookies->get('bsid');
 
         if(\is_null($cookieBsid) || !($this->basket = $this->services['em']->getRepository('n3bShopBundle:Basket')->getCompleteBasket($cookieBsid, 1)))
             $this->basket = new BasketModel();
-
-        // для ajax запросов
-        if(!$event->getRequest()->isXmlHttpRequest())
-            return;
-
-        if($id = $event->getRequest()->get('add_to_basket'))
-            $this->addProduct($productId, false);
-        elseif($id = $event->getRequest()->get('del_from_basket'))
-            $this->removeItem($itemId, false);
-        elseif($id = $event->getRequest()->get('decrease_item_in_basket'))
-            $this->decreaseBasketItemQuantity($itemId, false);
-        elseif($id = $event->getRequest()->get('increase_item_in_basket'))
-            $this->decreaseBasketItemQuantity($itemId, false);
     }
 
-    public function onCoreResponse(FilterResponseEvent $event)
+    public function getAjaxCallbacks()
     {
-        $event->getResponse()->headers->setCookie($this->getBasketCookie());
+        return array(
+            'add_to_basket' => 'addProduct',
+            'del_from_basket' => 'removeItem',
+            'decrease_item_in_basket' => 'decreaseBasketItemQuantity',
+            'increase_item_in_basket' => 'increaseBasketItemQuantity',
+        );
     }
 
     public function getBasket()
     {
+        if(!isset($this->basket))
+            $this->basket = new BasketModel();
+
         return $this->basket;
     }
 
-    protected function getBasketCookie()
+    public function getBasketCookie()
     {
         if(!isset($this->basketCookie))
             $this->basketCookie = new Cookie('bsid', $this->getBasket()->getBsid());

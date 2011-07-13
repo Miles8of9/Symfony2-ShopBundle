@@ -9,7 +9,7 @@ class CustomerLoginType extends AbstractType
 {
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('login')
+        $builder->add('username')
                 ->add('password');
     }
 

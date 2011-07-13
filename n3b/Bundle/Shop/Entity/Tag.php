@@ -40,7 +40,7 @@ class Tag extends BaseTag
      */
     protected $type;
     /**
-     * @ORM\ManyToMany(targetEntity="Product")
+     * @ORM\ManyToMany(targetEntity="Product", mappedBy="tags")
      */
     protected $products;
     /**

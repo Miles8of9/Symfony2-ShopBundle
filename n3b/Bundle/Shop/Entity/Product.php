@@ -46,7 +46,7 @@ class Product extends BaseProduct
      */
     protected $additional;
     /**
-     * @ORM\ManyToMany(targetEntity="Tag")
+     * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products")
      */
     protected $tags;
     /**

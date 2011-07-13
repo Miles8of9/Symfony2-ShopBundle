@@ -17,7 +17,10 @@ class Checkout
 
     public function start()
     {
-        $form = $this->services['ff']->create(new CheckoutFullType());
+        echo '<pre>';
+        \var_dump($token = $this->services['sc']->getToken()->getUser());
+        echo '</pre>';
+        $form = $this->services['ff']->create(new CheckoutFullType(), null, array());
 
         if ($this->services['request']->getMethod() == 'POST') {
             $form->bindRequest($this->services['request']);

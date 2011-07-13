@@ -1,15 +1,13 @@
 <?php
 
-namespace n3b\Bundle\Shop\Form\EventSubscriber;
+namespace n3b\Bundle\Shop\Form\Event;
 
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\Event\DataEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormFactory;
 use n3b\Bundle\Shop\Form\NewCustomerType;
 use n3b\Bundle\Shop\Entity\Customer;
 
-class PreBindDataSubscriber implements EventSubscriberInterface
+class PreBindDataListener
 {
     public function __construct(FormFactory $ff)
     {
@@ -26,10 +24,5 @@ class PreBindDataSubscriber implements EventSubscriberInterface
                 ));
             $event->getForm()->get('checkout')->add($newCustomerForm);
         }
-    }
-
-    static public function getSubscribedEvents()
-    {
-        return array(FormEvents::PRE_BIND => 'onPreBindData');
     }
 }

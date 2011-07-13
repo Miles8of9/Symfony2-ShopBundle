@@ -10,10 +10,10 @@ class NewCustomerType extends AbstractType
 
     public function buildForm(FormBuilder $builder, array $options)
     {
-        $builder->add('login')
+        $builder->add('username')
             ->add('password')
             ->add('passwordCheck')
-            ->add('username')
+            ->add('name')
             ->add('userphone');
     }
 
