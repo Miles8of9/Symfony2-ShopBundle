@@ -16,10 +16,8 @@ class Basket
         $this->services = $services;
     }
 
-    public function init($request)
+    public function init($cookieBsid = null)
     {
-        $cookieBsid = $request->cookies->get('bsid');
-
         if(\is_null($cookieBsid) || !($this->basket = $this->services['em']->getRepository('n3bShopBundle:Basket')->getCompleteBasket($cookieBsid, 1)))
             $this->basket = new BasketModel();
     }

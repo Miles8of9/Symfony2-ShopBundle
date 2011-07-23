@@ -32,15 +32,14 @@ class TagRepository extends EntityRepository
     {
         $dql =
             "SELECT t, c, tt FROM n3bShopBundle:Tag t
-                JOIN t.products p WITH p.id IN (?1)
+                JOIN t.products p WITH p.id IN (:ids)
                 JOIN t.type tt
 				LEFT JOIN t.children c
-                WHERE tt.id IN (?2) AND t.parent IS NULL
+                WHERE tt.id IN (:types) AND t.parent IS NULL
                 ORDER BY tt.id, t.title, c.title";
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter(1, $ids);
-        $query->setParameter(2, $types);
+        $query->setParameters(array('ids' => $ids, 'types' => $types));
 
         $res = $query->getResult();
 

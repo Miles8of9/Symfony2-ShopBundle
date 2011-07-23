@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace n3b\Bundle\Shop\Entity;
 
@@ -10,14 +10,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Price
 {
-	/**
+    /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      * @ORM\OneToOne(targetEntity="Product", mappedBy="price")
      */
     protected $id;
-    
     /**
      * @ORM\Column(type="string", length="255")
      */

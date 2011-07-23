@@ -21,7 +21,7 @@ class ProductFeature
      */
     protected $feature;
     /**
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="protuctFeatures")
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="features")
      */
     protected $product;
     /**

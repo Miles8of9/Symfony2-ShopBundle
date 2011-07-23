@@ -15,16 +15,11 @@ class Catalog
         $this->repo['product'] = $this->services['em']->getRepository('n3bShopBundle:Product');
     }
 
-    public function index()
-    {
-        $tags = $this->repo['tag']->getTagsByType(1);
-        return $this->services['templating']->renderResponse('n3bShopBundle:Catalog:index.html.php', array('tags' => $tags));
-    }
-
-    public function products($slugStr)
+    public function products($slugStr, $view)
     {
         $slugs = \explode(',', $slugStr);
         $categories = $this->repo['tag']->getTagsByType(array(1));
+        $selected = $this->repo['tag']->findOneBy(array('slug' => $slugs[0]));
 
         $productIds = $this->repo['product']->getIdsByTags($slugs);
         $brands = $this->repo['tag']->getByProductIds($productIds, array(2));
@@ -35,6 +30,7 @@ class Catalog
             'brands' => $brands,
             'products' => $products,
             'slugs' => $slugs,
+            'selected' => $selected,
             ));
     }
 
@@ -50,5 +46,26 @@ class Catalog
     public function search()
     {
         
+    }
+
+    public function index()
+    {
+        $categories = $this->repo['tag']->getTagsByType(array(1));
+
+        return $this->services['templating']->renderResponse('n3bShopBundle:Catalog:index.html.php', array(
+            'categories' => $categories,
+            ));
+    }
+
+    public function test()
+    {
+        /*
+        $tags = $this->services['em']->getRepository('n3bShopBundle:Tag')->findAll();
+        foreach($tags as $tag)
+            $tag->slugify();
+
+        $this->services['em']->flush();
+         * 
+         */
     }
 }

@@ -1,10 +1,26 @@
+n3b_shop_catalog_index:
+  pattern:            /
+  defaults:           { _controller: catalog:index }
+
 n3b_shop_catalog_search:
   pattern:            /search
   defaults:           { _controller: catalog:search }
 
 n3b_shop_catalog_products:
-  pattern:            /{slugStr}
-  defaults:           { _controller: catalog:products }
+  pattern:            /catalog/{slugStr}
+  defaults:           { _controller: catalog:products, view: 1, outOfStock: false }
+
+n3b_shop_catalog_products_outOfStock:
+  pattern:            /catalog/out_of_stock/{slugStr}
+  defaults:           { _controller: catalog:products, view: 1, outOfStock: true }
+
+n3b_shop_catalog_products_outOfStock_view2:
+  pattern:            /catalog/view2/out_of_stock/{slugStr}
+  defaults:           { _controller: catalog:products, view: 2, outOfStock: true }
+
+n3b_shop_catalog_products_view2:
+  pattern:            /catalog/view2/{slugStr}
+  defaults:           { _controller: catalog:products, view: 2, outOfStock: false }
 
 n3b_shop_catalog_product:
   pattern:            /product/{slug}

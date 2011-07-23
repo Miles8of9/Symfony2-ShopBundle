@@ -19,6 +19,10 @@ abstract class Tag {
         else
            $slugs[] = $this->slug;
 
+        $first = \array_shift($slugs);
+        \sort($slugs);
+        \array_unshift($slugs, $first);
+
         return \implode(',', $slugs);
     }
 

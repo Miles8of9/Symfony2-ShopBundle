@@ -1,9 +1,14 @@
+n3b_shop_exchange_recieve:
+  pattern:   /exchange
+  defaults:  { _controller: exchange:recieve }
+
 n3b_shop_index:
   pattern:   /
   defaults:  { _controller: catalog:index }
 
 n3b_shop_test:
   pattern:   /test
+  defaults:  { _controller: catalog:test }
 
 n3b_shop_basket:
   resource:  "basket.yml"
@@ -19,3 +24,4 @@ n3b_shop_customer:
 
 n3b_shop_catalog:
   resource:  "catalog.yml"
+

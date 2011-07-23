@@ -11,9 +11,9 @@ class LoadPriceData extends AbstractFixture implements OrderedFixtureInterface
     public function load($em)
     {
         $price = new Price();
-        $price->setTitle('Розничная');
+        $price->setTitle('retail');
         $price2 = new Price();
-        $price2->setTitle('Оптовая');
+        $price2->setTitle('wholesale');
 
         $em->persist($price);
         $em->persist($price2);

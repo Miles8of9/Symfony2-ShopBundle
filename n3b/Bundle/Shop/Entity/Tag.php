@@ -20,7 +20,7 @@ class Tag extends BaseTag
      */
     protected $id;
     /**
-     * @ORM\Column(type="string", length="255")
+     * @ORM\Column
      */
     protected $title;
     /**
@@ -32,7 +32,7 @@ class Tag extends BaseTag
      */
     protected $active;
     /**
-     * @ORM\OneToOne(targetEntity="TagAdditional")
+     * @ORM\OneToOne(targetEntity="TagAdditional", orphanRemoval="true", cascade={"persist", "remove"})
      */
     protected $additional;
     /**
@@ -51,6 +51,10 @@ class Tag extends BaseTag
      * @ORM\ManyToOne(targetEntity="Tag", inversedBy="children")
      */
     protected $parent;
+    /**
+     * @ORM\Column(nullable="true")
+     */
+    protected $external;
 
     public function __construct()
     {
@@ -255,5 +259,30 @@ class Tag extends BaseTag
     public function slugify()
     {
         $this->setSlug(StringUtil::slugify($this->getTitle()));
+    }
+
+    /**
+     * Set external
+     *
+     * @param string $external
+     */
+    public function setExternal($external)
+    {
+        $this->external = $external;
+    }
+
+    /**
+     * Get external
+     *
+     * @return string $external
+     */
+    public function getExternal()
+    {
+        return $this->external;
+    }
+
+    public function removeParent()
+    {
+        $this->parent = null;
     }
 }

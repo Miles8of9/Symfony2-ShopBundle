@@ -18,7 +18,6 @@ class Product extends BaseProduct
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
     /**
@@ -42,7 +41,7 @@ class Product extends BaseProduct
      */
     protected $prices;
     /**
-     * @ORM\OneToOne(targetEntity="ProductAdditional")
+     * @ORM\OneToOne(targetEntity="ProductAdditional", inversedBy="product", orphanRemoval="true", cascade={"persist", "remove"})
      */
     protected $additional;
     /**
@@ -57,6 +56,15 @@ class Product extends BaseProduct
      * @ORM\Column(type="datetime")
      */
     protected $updated;
+    /**
+     * @ORM\OneToMany(targetEntity="ProductFeature", mappedBy="product", orphanRemoval="true", cascade={"persist", "remove"})
+     */
+    protected $features;
+    /**
+     * @ORM\ManyToMany(targetEntity="File", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="product_images")
+     */
+    protected $images;
 
     public function __construct()
     {
@@ -270,5 +278,55 @@ class Product extends BaseProduct
     public function getMainImage()
     {
         return $this->mainImage;
+    }
+
+    /**
+     * Set id
+     *
+     * @param integer $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Add features
+     *
+     * @param n3b\Bundle\Shop\Entity\ProductFeature $features
+     */
+    public function addFeatures(\n3b\Bundle\Shop\Entity\ProductFeature $features)
+    {
+        $this->features[] = $features;
+    }
+
+    /**
+     * Get features
+     *
+     * @return Doctrine\Common\Collections\Collection $features
+     */
+    public function getFeatures()
+    {
+        return $this->features;
+    }
+
+    /**
+     * Add images
+     *
+     * @param n3b\Bundle\Shop\Entity\File $images
+     */
+    public function addImages(\n3b\Bundle\Shop\Entity\File $images)
+    {
+        $this->images[] = $images;
+    }
+
+    /**
+     * Get images
+     *
+     * @return Doctrine\Common\Collections\Collection $images
+     */
+    public function getImages()
+    {
+        return $this->images;
     }
 }

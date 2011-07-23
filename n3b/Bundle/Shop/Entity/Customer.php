@@ -43,6 +43,11 @@ class Customer extends BaseCustomer implements UserInterface
      * @ORM\OneToMany(targetEntity="Checkout", mappedBy="customer", orphanRemoval=true, cascade={"persist", "remove"})
      */
     protected $orders;
+    /**
+     * @ORM\Column(unique="true", nullable="true")
+     */
+    protected $external;
+    
     public function __construct()
     {
         $this->orders = new ArrayCollection();
@@ -176,5 +181,25 @@ class Customer extends BaseCustomer implements UserInterface
     public function equals(UserInterface $user)
     {
 
+    }
+
+    /**
+     * Set external
+     *
+     * @param string $external
+     */
+    public function setExternal($external)
+    {
+        $this->external = $external;
+    }
+
+    /**
+     * Get external
+     *
+     * @return string $external
+     */
+    public function getExternal()
+    {
+        return $this->external;
     }
 }

@@ -21,13 +21,19 @@ class Feature
      */
     protected $title;
     /**
-     * @ORM\Column(type="text", length="4000")
+     * @ORM\Column(type="text", length="4000", nullable="true")
      */
     protected $description;
+    /**
+     * @ORM\Column(nullable="true")
+     */
+    protected $groupTitle;
+
     /**
      * @ORM\OneToMany(targetEntity="ProductFeature", mappedBy="feature", orphanRemoval="true", cascade={"persist", "remove"})
      */
     protected $productFeatures;
+
     public function __construct()
     {
         $this->productFeatures = new \Doctrine\Common\Collections\ArrayCollection();
@@ -101,5 +107,45 @@ class Feature
     public function getProductFeatures()
     {
         return $this->productFeatures;
+    }
+
+    /**
+     * Set group
+     *
+     * @param string $group
+     */
+    public function setGroup($group)
+    {
+        $this->group = $group;
+    }
+
+    /**
+     * Get group
+     *
+     * @return string $group
+     */
+    public function getGroup()
+    {
+        return $this->group;
+    }
+
+    /**
+     * Set groupTitle
+     *
+     * @param string $groupTitle
+     */
+    public function setGroupTitle($groupTitle)
+    {
+        $this->groupTitle = $groupTitle;
+    }
+
+    /**
+     * Get groupTitle
+     *
+     * @return string $groupTitle
+     */
+    public function getGroupTitle()
+    {
+        return $this->groupTitle;
     }
 }

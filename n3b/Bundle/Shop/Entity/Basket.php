@@ -3,7 +3,6 @@
 namespace n3b\Bundle\Shop\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use n3b\Bundle\Shop\Model\Basket as BaseBasket;
 use Doctrine\Common\Collections\ArrayCollection;
 

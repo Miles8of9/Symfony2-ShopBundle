@@ -17,9 +17,6 @@ class Checkout
 
     public function start()
     {
-        echo '<pre>';
-        \var_dump($token = $this->services['sc']->getToken()->getUser());
-        echo '</pre>';
         $form = $this->services['ff']->create(new CheckoutFullType(), null, array());
 
         if ($this->services['request']->getMethod() == 'POST') {
@@ -43,6 +40,7 @@ class Checkout
             'n3bShopBundle:Checkout:start.html.php',
             array(
                 'form' => $form->createView(),
+                'basket' => $this->services['basket']->getBasket(),
                 ));
     }
 

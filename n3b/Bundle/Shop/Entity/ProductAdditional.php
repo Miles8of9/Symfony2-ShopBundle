@@ -17,17 +17,21 @@ class ProductAdditional
      */
     protected $id;
     /**
-     * @ORM\Column(type="text", length="4000")
+     * @ORM\OneToOne(targetEntity="Product", mappedBy="additional")
+     */
+    protected $product;
+    /**
+     * @ORM\Column(type="text", length="4000", nullable="true")
      */
     protected $description;
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(nullable="true")
      */
     protected $art;
     /**
-     * @ORM\ManyToMany(targetEntity="File")
+     * @ORM\ManyToOne(targetEntity="Warranty", inversedBy="productAdditional")
      */
-    protected $images;
+    protected $warranty;
 
     /**
      * Get id
@@ -125,22 +129,72 @@ class ProductAdditional
     }
 
     /**
-     * Add images
+     * Add productFeatures
      *
-     * @param n3b\Bundle\Shop\Entity\File $images
+     * @param n3b\Bundle\Shop\Entity\ProductFeature $productFeatures
      */
-    public function addImages(\n3b\Bundle\Shop\Entity\File $images)
+    public function addProductFeatures(\n3b\Bundle\Shop\Entity\ProductFeature $productFeatures)
     {
-        $this->images[] = $images;
+        $this->productFeatures[] = $productFeatures;
     }
 
     /**
-     * Get images
+     * Get productFeatures
      *
-     * @return Doctrine\Common\Collections\Collection $images
+     * @return Doctrine\Common\Collections\Collection $productFeatures
      */
-    public function getImages()
+    public function getProductFeatures()
     {
-        return $this->images;
+        return $this->productFeatures;
+    }
+
+    /**
+     * Set product
+     *
+     * @param n3b\Bundle\Shop\Entity\Product $product
+     */
+    public function setProduct(\n3b\Bundle\Shop\Entity\Product $product)
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * Get product
+     *
+     * @return n3b\Bundle\Shop\Entity\Product $product
+     */
+    public function getProduct()
+    {
+        return $this->product;
+    }
+
+    /**
+     * Set warranty
+     *
+     * @param n3b\Bundle\Shop\Entity\Warranty $warranty
+     */
+    public function setWarranty(\n3b\Bundle\Shop\Entity\Warranty $warranty)
+    {
+        $this->warranty = $warranty;
+    }
+
+    /**
+     * Get warranty
+     *
+     * @return n3b\Bundle\Shop\Entity\Warranty $warranty
+     */
+    public function getWarranty()
+    {
+        return $this->warranty;
+    }
+
+    /**
+     * Add warranty
+     *
+     * @param n3b\Bundle\Shop\Entity\Warranty $warranty
+     */
+    public function addWarranty(\n3b\Bundle\Shop\Entity\Warranty $warranty)
+    {
+        $this->warranty[] = $warranty;
     }
 }

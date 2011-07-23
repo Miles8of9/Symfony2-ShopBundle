@@ -16,9 +16,10 @@ class BasketRepository extends EntityRepository
     public function getCompleteBasket($bsid, $priceId)
     {
         $dql = "
-            SELECT b, i, p, pp, ppc, ppp FROM n3bShopBundle:Basket b
+            SELECT b, i, p, mi, pp, ppc, ppp FROM n3bShopBundle:Basket b
             JOIN b.items i
             JOIN i.product p
+            LEFT JOIN p.mainImage mi
             JOIN p.prices pp
             JOIN pp.price ppp WITH ppp.id = :price_id
             JOIN pp.currency ppc

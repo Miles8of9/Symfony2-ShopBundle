@@ -1,6 +1,18 @@
 services:
   request:
     synthetic:                      true
+  n3b_config:
+    class:                          n3b\Bundle\Util\Service\Config\ConfigContainerBuilder
+    arguments:
+      container:                    '@service_container'
+  exchange:
+    class:                          n3b\Bundle\Shop\Service\Exchange
+    arguments:
+      services:
+        em:                         '@doctrine.orm.entity_manager'
+        templating:                 '@templating'
+        request:                    '@request'
+      config:                       '@n3b_config'
   basket:
     class:                          n3b\Bundle\Shop\Service\Basket
     arguments:
@@ -9,17 +21,12 @@ services:
         templating:                 '@templating'
         router:                     '@router'
         sc:                         '@security.context'
-  container:
-    class:                          n3b\Bundle\Shop\Service\Container
-    arguments:
-      params: []
   catalog:
     class:                          n3b\Bundle\Shop\Service\Catalog
     arguments:
       services:
         em:                         '@doctrine.orm.entity_manager'
         templating:                 '@templating'
-        security:                   '@security.context'
         router:                     '@router'
         http_kernel:                '@http_kernel'
         sc:                         '@security.context'
@@ -53,3 +60,13 @@ services:
     tags:
       - { name: kernel.listener, event: core.request, method: onCoreRequest }
       - { name: kernel.listener, event: core.response, method: onCoreResponse }
+  helper.assets:
+    class:                          n3b\Bundle\Shop\Templating\AssetsCollection
+    tags:
+      - { name: templating.helper, alias: assets }
+  helper.basket:
+    class:                          n3b\Bundle\Shop\Templating\Basket
+    arguments:
+      basket_service:               '@basket'
+    tags:
+      - { name: templating.helper, alias: basket }

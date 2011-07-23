@@ -13,6 +13,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
     {
         for($i = 1; $i <= 12; $i++) {
             $p[$i] = new Product();
+            $p[$i]->setId($i);
             $p[$i]->setTitle('продукт '.$i);
             $p[$i]->setQuantity(50);
             $p[$i]->slugify();

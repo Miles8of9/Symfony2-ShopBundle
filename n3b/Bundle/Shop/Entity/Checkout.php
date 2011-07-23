@@ -33,6 +33,10 @@ class Checkout extends BaseCheckout
      * @ORM\Column(type="datetime")
      */
     protected $created;
+    /**
+     * @ORM\Column(unique="true", nullable="true")
+     */
+    protected $external;
 
     public function __construct()
     {
@@ -152,5 +156,25 @@ class Checkout extends BaseCheckout
     public function getItems()
     {
         return $this->items;
+    }
+
+    /**
+     * Set external
+     *
+     * @param string $external
+     */
+    public function setExternal($external)
+    {
+        $this->external = $external;
+    }
+
+    /**
+     * Get external
+     *
+     * @return string $external
+     */
+    public function getExternal()
+    {
+        return $this->external;
     }
 }

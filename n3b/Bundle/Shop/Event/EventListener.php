@@ -16,15 +16,15 @@ class EventListener
 
     public function onCoreRequest(GetResponseEvent $event)
     {
-        $this->services['basket']->init($event->getRequest());
+        $this->services['basket']->init($event->getRequest()->cookies->get('bsid'));
 
         // для ajax запросов
         if(!$event->getRequest()->isXmlHttpRequest())
             return;
 
-        foreach($this->services['basket']->getAjaxCallbacks() as $requestedValue => $callback)
-            if($request = $event->getRequest()->get($requestedValue))
-                $this->services['basket']->$callback($request, false);
+        foreach($this->services['basket']->getAjaxCallbacks() as $reqParam => $callback)
+            if($reqVal = $event->getRequest()->get($reqParam))
+                $this->services['basket']->$callback($reqVal, false);
     }
 
     public function onCoreResponse(FilterResponseEvent $event)

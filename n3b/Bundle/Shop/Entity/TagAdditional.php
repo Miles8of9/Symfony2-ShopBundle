@@ -8,22 +8,20 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity
  */
-class TagAdditional {
-	/**
+class TagAdditional
+{
+    /**
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
-	/**
-     * @ORM\Column(type="text", length="4000")
+    /**
+     * @ORM\Column(type="text", length="4000", nullable="true")
      */
     protected $description;
-
-	/**
+    /**
      * @ORM\OneToOne(targetEntity="File")
-     * @ORM\JoinColumn(name="image_id", referencedColumnName="id")
      */
     protected $image;
 
