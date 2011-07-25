@@ -96,17 +96,6 @@ class Basket extends BaseBasket
         return $this->updated;
     }
 
-
-    /**
-     * Add products
-     *
-     * @param n3b\Bundle\Shop\Entity\ProductInBasket $products
-     */
-    public function addProducts(\n3b\Bundle\Shop\Entity\ProductInBasket $products)
-    {
-        $this->products[] = $products;
-    }
-
     /**
      * Get products
      *

@@ -21,6 +21,10 @@ class Product extends BaseProduct
      */
     protected $id;
     /**
+     * @ORM\OneToOne(targetEntity="ProductAdditional", inversedBy="product", orphanRemoval="true", cascade={"persist", "remove"})
+     */
+    protected $additional;
+    /**
      * @ORM\Column
      */
     protected $title;
@@ -37,13 +41,17 @@ class Product extends BaseProduct
      */
     protected $active;
     /**
+     * @ORM\Column(type="text", length="4000", nullable="true")
+     */
+    protected $preview;
+    /**
      * @ORM\OneToMany(targetEntity="ProductPrice", mappedBy="product", orphanRemoval="true", cascade={"persist", "remove"})
      */
     protected $prices;
     /**
-     * @ORM\OneToOne(targetEntity="ProductAdditional", inversedBy="product", orphanRemoval="true", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity="ProductFlags", inversedBy="product", orphanRemoval="true", cascade={"persist", "remove"})
      */
-    protected $additional;
+    protected $flags;
     /**
      * @ORM\ManyToMany(targetEntity="Tag", inversedBy="products")
      */
@@ -65,6 +73,15 @@ class Product extends BaseProduct
      * @ORM\JoinTable(name="product_images")
      */
     protected $images;
+    /**
+     * @ORM\ManyToMany(targetEntity="File", cascade={"persist", "remove"})
+     * @ORM\JoinTable(name="product_files")
+     */
+    protected $files;
+    /**
+     * @ORM\OneToMany(targetEntity="ProductComment", mappedBy="product", orphanRemoval="true", cascade={"persist", "remove"})
+     */
+    protected $comments;
 
     public function __construct()
     {
@@ -72,6 +89,7 @@ class Product extends BaseProduct
         $this->active = true;
         $this->tags = new ArrayCollection();
         $this->prices = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     /**
@@ -328,5 +346,85 @@ class Product extends BaseProduct
     public function getImages()
     {
         return $this->images;
+    }
+
+    /**
+     * Set flags
+     *
+     * @param n3b\Bundle\Shop\Entity\ProductFlags $flags
+     */
+    public function setFlags(\n3b\Bundle\Shop\Entity\ProductFlags $flags)
+    {
+        $this->flags = $flags;
+    }
+
+    /**
+     * Get flags
+     *
+     * @return n3b\Bundle\Shop\Entity\ProductFlags $flags
+     */
+    public function getFlags()
+    {
+        return $this->flags;
+    }
+
+    /**
+     * Add files
+     *
+     * @param n3b\Bundle\Shop\Entity\File $files
+     */
+    public function addFiles(\n3b\Bundle\Shop\Entity\File $files)
+    {
+        $this->files[] = $files;
+    }
+
+    /**
+     * Get files
+     *
+     * @return Doctrine\Common\Collections\Collection $files
+     */
+    public function getFiles()
+    {
+        return $this->files;
+    }
+
+    /**
+     * Add comments
+     *
+     * @param n3b\Bundle\Shop\Entity\ProductComment $comments
+     */
+    public function addComments(\n3b\Bundle\Shop\Entity\ProductComment $comments)
+    {
+        $this->comments[] = $comments;
+    }
+
+    /**
+     * Get comments
+     *
+     * @return Doctrine\Common\Collections\Collection $comments
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * Set preview
+     *
+     * @param text $preview
+     */
+    public function setPreview($preview)
+    {
+        $this->preview = $preview;
+    }
+
+    /**
+     * Get preview
+     *
+     * @return text $preview
+     */
+    public function getPreview()
+    {
+        return $this->preview;
     }
 }

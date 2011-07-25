@@ -22,6 +22,17 @@ n3b_shop_catalog_products_view2:
   pattern:            /catalog/view2/{slugStr}
   defaults:           { _controller: catalog:products, view: 2, outOfStock: false }
 
+n3b_shop_catalog_product_comments:
+  pattern:            /product/{slug}/comments
+  defaults:           { _controller: catalog:product }
+
+n3b_shop_catalog_product_images:
+  pattern:            /images/{productId}/{imageId}
+  defaults:           { _controller: catalog:productImages }
+  requirements:
+    productId:        \d+
+    imageId:          \d+
+
 n3b_shop_catalog_product:
   pattern:            /product/{slug}
   defaults:           { _controller: catalog:product }

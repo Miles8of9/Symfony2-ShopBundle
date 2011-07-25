@@ -119,26 +119,6 @@ class Checkout extends BaseCheckout
     }
 
     /**
-     * Add products
-     *
-     * @param n3b\Bundle\Shop\Entity\ProductOrdered $products
-     */
-    public function addProducts(\n3b\Bundle\Shop\Entity\ProductOrdered $products)
-    {
-        $this->products[] = $products;
-    }
-
-    /**
-     * Get products
-     *
-     * @return Doctrine\Common\Collections\Collection $products
-     */
-    public function getProducts()
-    {
-        return $this->products;
-    }
-
-    /**
      * Add items
      *
      * @param n3b\Bundle\Shop\Entity\CheckoutItem $items

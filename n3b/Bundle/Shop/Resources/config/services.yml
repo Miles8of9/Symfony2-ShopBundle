@@ -28,7 +28,6 @@ services:
         em:                         '@doctrine.orm.entity_manager'
         templating:                 '@templating'
         router:                     '@router'
-        http_kernel:                '@http_kernel'
         sc:                         '@security.context'
   customer:
     class:                          n3b\Bundle\Shop\Service\Customer
@@ -37,7 +36,6 @@ services:
         em:                         '@doctrine.orm.entity_manager'
         templating:                 '@templating'
         router:                     '@router'
-        http_kernel:                '@http_kernel'
         request:                    '@request'
         sc:                         '@security.context'
   checkout:
@@ -60,13 +58,15 @@ services:
     tags:
       - { name: kernel.listener, event: core.request, method: onCoreRequest }
       - { name: kernel.listener, event: core.response, method: onCoreResponse }
-  helper.assets:
-    class:                          n3b\Bundle\Shop\Templating\AssetsCollection
-    tags:
-      - { name: templating.helper, alias: assets }
   helper.basket:
     class:                          n3b\Bundle\Shop\Templating\Basket
     arguments:
       basket_service:               '@basket'
     tags:
       - { name: templating.helper, alias: basket }
+  helper.catalog:
+    class:                          n3b\Bundle\Shop\Templating\Catalog
+    arguments:
+      catalog_service:              '@catalog'
+    tags:
+      - { name: templating.helper, alias: catalog }

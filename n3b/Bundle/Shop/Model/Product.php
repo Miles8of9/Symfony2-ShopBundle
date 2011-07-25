@@ -13,11 +13,16 @@ abstract class Product {
         return $this->getTitle();
     }
 
-    public function getPrice()
+    public function getPrice($formatted = false)
     {
         $prices = $this->getPrices();
 
-        return $prices[0]->getValue() * $prices[0]->getCurrency()->getValue();
+        $price = $prices[0]->getValue() * $prices[0]->getCurrency()->getValue();
+
+        if($formatted)
+            return str_replace(',00', '', number_format($price, 2, ',', ' '));
+
+        return $price;
     }
 
     public function getImgSrc($image, $type = 0)

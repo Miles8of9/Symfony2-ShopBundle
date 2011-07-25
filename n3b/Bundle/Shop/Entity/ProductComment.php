@@ -16,6 +16,10 @@ class ProductComment
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	protected $id;
+    /**
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="comments")
+     */
+    protected $product;
 	/**
 	 * @ORM\Column(type="string")
 	 */
@@ -116,9 +120,9 @@ class ProductComment
     /**
      * Add children
      *
-     * @param n3b\Bundle\Shop\Entity\ProductComments $children
+     * @param n3b\Bundle\Shop\Entity\ProductComment $children
      */
-    public function addChildren(\n3b\Bundle\Shop\Entity\ProductComments $children)
+    public function addChildren(\n3b\Bundle\Shop\Entity\ProductComment $children)
     {
         $this->children[] = $children;
     }
@@ -136,9 +140,9 @@ class ProductComment
     /**
      * Set parent
      *
-     * @param n3b\Bundle\Shop\Entity\ProductComments $parent
+     * @param n3b\Bundle\Shop\Entity\ProductComment $parent
      */
-    public function setParent(\n3b\Bundle\Shop\Entity\ProductComments $parent)
+    public function setParent(\n3b\Bundle\Shop\Entity\ProductComment $parent)
     {
         $this->parent = $parent;
     }
@@ -146,7 +150,7 @@ class ProductComment
     /**
      * Get parent
      *
-     * @return n3b\Bundle\Shop\Entity\ProductComments $parent
+     * @return n3b\Bundle\Shop\Entity\ProductComment $parent
      */
     public function getParent()
     {
@@ -171,5 +175,25 @@ class ProductComment
     public function getText()
     {
         return $this->text;
+    }
+
+    /**
+     * Set product
+     *
+     * @param n3b\Bundle\Shop\Entity\Product $product
+     */
+    public function setProduct(\n3b\Bundle\Shop\Entity\Product $product)
+    {
+        $this->product = $product;
+    }
+
+    /**
+     * Get product
+     *
+     * @return n3b\Bundle\Shop\Entity\Product $product
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }

@@ -7,7 +7,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ProductRepository extends EntityRepository
 {
-    //TODO поискать более емкие варианты
+
     public function getByIds(array $ids, $priceId)
     {
         $dql =
@@ -23,29 +23,30 @@ class ProductRepository extends EntityRepository
         $query->setParameters(array(
             'ids' => $ids,
             'price_id' => array($priceId),
-            ));
+        ));
 
         $res = $query->getResult();
 
         if(!$res)
-            throw new NotFoundHttpException('нихуа нетуть');
+            throw new NotFoundHttpException('По какой-то причине ничего не найдено');
 
         return $res;
     }
 
-    public function getIdsByTags(array $slugs)
+    public function getIdsByTags(array $slugs, $outOfStock)
     {
         $dql =
             "SELECT partial p.{id} FROM n3bShopBundle:Product p ";
 
         foreach($slugs as $k => $v) {
             if($k == 0)
-                $dql .= " JOIN p.tags t$k WITH t$k.slug = ?$k AND t$k.type = 1";
+                $dql .= " JOIN p.tags t$k WITH t$k.slug = ?$k AND t$k.type = 1 AND t$k.active = 1";
             else
-                $dql .= " JOIN p.tags t$k WITH t$k.slug = ?$k ";
+                $dql .= " JOIN p.tags t$k WITH t$k.slug = ?$k  AND t$k.active = 1";
         }
 
-        $dql .= " WHERE p.quantity > 0";
+        $dql .= $outOfStock ? " WHERE p.quantity = 0" : " WHERE p.quantity > 0";
+        $dql .= " AND p.active = 1";
 
         $query = $this->getEntityManager()->createQuery($dql);
 
@@ -54,27 +55,51 @@ class ProductRepository extends EntityRepository
 
         $res = $query->getArrayResult();
 
-        if(!$res)
-            throw new NotFoundHttpException('нихуа нетуть');
-        
-        $ids = array_map(function ($a) { return $a['id']; }, $res);
+        if(!$res && $outOfStock)
+            throw new NotFoundHttpException('Нет товаров по заданным условиям');
 
-        return $ids;
+        return $res ? array_map(function ($a) {return $a['id'];}, $res) : null;
     }
 
     public function getProductCard($slug)
     {
         $dql =
-            "SELECT p, pa, pp, ppc, ppp FROM n3bShopBundle:Product p
+            "SELECT p, mi, pa, pf, pff, pp, ppc, ppp FROM n3bShopBundle:Product p
                 JOIN p.prices pp
+                LEFT JOIN p.mainImage mi
+                LEFT JOIN p.features pf
+                LEFT JOIN pf.feature pff
                 LEFT JOIN p.additional pa
                 JOIN pp.currency ppc
                 JOIN pp.price ppp
-                WHERE p.slug = ?1";
+                WHERE p.slug = :slug
+                ORDER BY pff.groupTitle";
 
         $query = $this->getEntityManager()->createQuery($dql);
-        $query->setParameter(1, $slug);
-        $res = $query->getArrayResult();
+        $query->setParameter('slug', $slug);
+        $res = $query->getOneOrNullResult();
+
+        if(\is_null($res))
+            throw new NotFoundHttpException('Такой товар не найден');
+
+        return $res;
+    }
+
+    public function getSpecials()
+    {
+        $dql =
+            "SELECT p, mi, pa, pp, ppc, ppp, pf FROM n3bShopBundle:Product p
+                JOIN p.prices pp
+                LEFT JOIN p.additional pa
+                LEFT JOIN p.mainImage mi
+                JOIN pp.price ppp WITH ppp.id = 1
+                JOIN pp.currency ppc
+                JOIN p.flags pf
+                WHERE pf.onIndexPage = 1";
+
+        $query = $this->getEntityManager()->createQuery($dql);
+
+        $res = $query->getResult();
 
         if(!$res)
             throw new NotFoundHttpException('нихуа нетуть');

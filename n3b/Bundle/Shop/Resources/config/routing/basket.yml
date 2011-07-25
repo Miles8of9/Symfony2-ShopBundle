@@ -25,3 +25,14 @@ n3b_shop_basket_remove:
     defaults: { _controller: basket:removeItem }
     requirements:
         productId:  \d+
+
+n3b_shop_basket_quantity:
+    pattern:  /update/{itemId}/{quantity}
+    defaults: { _controller: basket:updateQuantity, quantity: 1 }
+    requirements:
+        itemId:     \d+
+        quantity:   \d+
+
+n3b_shop_basket_mini:
+    pattern:  /mini
+    defaults: { _controller: basket:showMini }
