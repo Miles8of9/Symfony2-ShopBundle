@@ -10,6 +10,7 @@ class Catalog
     protected $services;
 
     protected $outOfStock = false;
+    protected $view = 1;
 
     public function __construct($services)
     {
@@ -21,7 +22,7 @@ class Catalog
     public function products($slugStr, $view, $outOfStock)
     {
         $this->slugs = \explode(',', $slugStr);
-        $this->selected = $this->repo['tag']->findOneBy(array('slug' => $this->slugs[0]));
+        $this->view = $view;
 
         $productIds = $this->repo['product']->getIdsByTags($this->slugs, $outOfStock);
         if(!$outOfStock && !$productIds)
@@ -29,11 +30,16 @@ class Catalog
                 'slugStr' => $slugStr,
                 )));
 
+        $this->selected = $this->repo['tag']->findOneBy(array('slug' => $this->slugs[0]));
+        
+        $this->outOfStock = $outOfStock;
+
+        if(count($this->slugs) > 1)
+            $this->initTabs();
+
         $this->brands = $this->repo['tag']->getByProductIds($productIds, array(2));
         $this->tags = $this->repo['tag']->getByProductIds($productIds, array(3));
         $this->products = $this->repo['product']->getByIds($productIds, 1);
-
-        $this->outOfStock = $outOfStock;
 
         return $this->services['templating']->renderResponse('n3bShopBundle:Catalog:show.html.php');
     }
@@ -69,6 +75,14 @@ class Catalog
             throw new NotFoundHttpException();
 
         return $this->services['templating']->renderResponse('n3bShopBundle:Catalog:index.html.php');
+    }
+
+    protected function initTabs()
+    {
+        $productIds = $this->repo['product']->getIdsByTags(array($this->slugs[0]), $this->outOfStock);
+
+        $this->initBrands = $this->repo['tag']->getByProductIds($productIds, array(2));
+        $this->initTags = $this->repo['tag']->getByProductIds($productIds, array(3));
     }
 
     public function test()
@@ -142,5 +156,26 @@ class Catalog
     public function isOutOfStock()
     {
         return $this->outOfStock;
+    }
+
+    public function getInitBrands()
+    {
+        if(!isset($this->initBrands))
+            return array();
+
+        return $this->initBrands;
+    }
+
+    public function getInitTags()
+    {
+        if(!isset($this->initTags))
+            return array();
+
+        return $this->initTags;
+    }
+
+    public function getView()
+    {
+        return $this->view;
     }
 }

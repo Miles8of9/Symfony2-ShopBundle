@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package>
+    <good>
+        существующая схема для <good>
+    </good>
+    <client>
+        существующая схема для <client>
+    </client>
+    <order>
+        существующая схема для <order>
+    </order>
+    <brand>
+        <brand_id>27</brand_id>
+        <brand_name>Корея</brand_name>
+        <deleted>false</deleted>
+    </brand>
+    <category>
+        <category_id>27</category_id>
+        <category_name>Корея</category_name>
+        <deleted>false</deleted>
+    </category>
+    <group>
+        <group_id>27</group_id>
+        <group_name>Корея</group_name>
+        <deleted>false</deleted>
+    </group>
+    <tag>
+        <tag_id>27</tag_id>
+        <tag_name>Корея</tag_name>
+        <deleted>false</deleted>
+    </tag>
+    <warranty>
+        <brand_warranty_id>810</brand_warranty_id>
+		<brand_warranty_name>Гарантия Смартфото.ру 30 дней на внешние накопители</brand_warranty_name>
+		<brand_warranty_time>30</brand_warranty_time>
+    	<brand_warranty_comment>Продавец устанавливает гарантийный срок в течение 30 дней с даты продажи товара.</brand_warranty_comment>
+		<official_warranty_in_yml>false</official_warranty_in_yml>
+        <deleted>false</deleted>
+    </warranty>
+    <serv_center>
+		<serv_center_id>207</serv_center_id>
+		<serv_center_name>«ОЛДИ-Сервис» на Малышева улице</serv_center_name>
+		<serv_center_address>109129, Москва г, Малышева ул, дом № 7</serv_center_address>
+		<serv_center_phone_1>(495) 221-11-11</serv_center_phone_1>
+        </serv_center_phone_2>
+        </serv_center_phone_3>
+        </serv_center_phone_4>
+        </serv_center_phone_5>
+        </serv_center_phone_6>
+        </serv_center_phone_7>
+        </serv_center_phone_8>
+        </serv_center_phone_9>
+        </serv_center_fax>
+		<serv_center_url>http://www.oldi.ru/oldik/garanty/</serv_center_url>
+		<serv_center_mail>oms@oldi.ru</serv_center_mail>
+		<serv_center_timing>ПН-ПТ 10:00-20:00, СБ 10:00-18:00, без перерыва на обед, ВС выходной</serv_center_timing>
+		<deleted>false</deleted>
+	</serv_center>
+    <category_parent>
+        <category_id>1</category_id>
+        <category_parent_id>100</category_parent_id>
+    </category_parent>
+    <product_references>
+        <product_id>1</product_id>
+        <brand_id>2</brand_id>
+        <group_id>2</group_id>
+        <warranty_id>2</warranty_id>
+        <product_category>
+            <category_id>2</category_id>
+        </product_category>
+        <product_category>
+            <category_id>3</category_id>
+        </product_category>
+        <product_tag>
+            <tag_id>1</tag_id>
+        </product_tag>
+        <product_tag>
+            <tag_id>2</tag_id>
+        </product_tag>
+    </product_references>
+    <warranty_services>
+        <warranty_id>1</warranty_id>
+        <service_center>
+            <service_center_id>1</service_center_id>
+        </service_center>
+        <service_center>
+            <service_center_id>2</service_center_id>
+        </service_center>
+    </warranty_services>
+</package>

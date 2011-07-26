@@ -39,6 +39,16 @@ class Catalog extends Helper
         return $this->catalog->getTags();
     }
 
+    public function getInitBrands()
+    {
+        return $this->catalog->getInitBrands();
+    }
+
+    public function getInitTags()
+    {
+        return $this->catalog->getInitTags();
+    }
+
     public function getProducts()
     {
         return $this->catalog->getProducts();
@@ -57,5 +67,10 @@ class Catalog extends Helper
     public function isOutOfStock()
     {
         return $this->catalog->isOutOfStock();
+    }
+
+    public function getView()
+    {
+        return $this->catalog->getView();
     }
 }

@@ -131,7 +131,7 @@ class Basket
 
     public function updateQuantity($itemId, $quantity)
     {
-        if($this->XHR || $quantity < 1)
+        if(!$this->XHR || $quantity < 1)
             throw new \Exception();
         
         try {
